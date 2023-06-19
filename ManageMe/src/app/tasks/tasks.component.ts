@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Feature, Task } from '../features/feature.model';
 import { FeaturesService } from '../services/features.service';
+import { TasksService } from '../services/tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -10,9 +11,10 @@ import { FeaturesService } from '../services/features.service';
 export class TasksComponent implements OnInit {
   features: Feature[] = [];
   tasks: Task[] = [];
-  selectedFeatureId: number = 0;
+  selectedFeatureId: string = '0';
+  newTaskName: string = '';
 
-  constructor(private featuresService: FeaturesService) { }
+  constructor(private featuresService: FeaturesService, private tasksService: TasksService) { }
 
   ngOnInit(): void {
     this.loadFeatures();
@@ -32,6 +34,44 @@ export class TasksComponent implements OnInit {
   loadTasks(event: any): void {
     const featureId = event.target.value;
     this.selectedFeatureId = featureId;
-    this.tasks = this.features.find(f => f.id === featureId)?.tasks || [];
+    
+    this.tasksService.getTasksForFeature(parseInt(featureId)).subscribe(
+      (tasks: Task[]) => {
+        this.tasks = tasks;
+      },
+      (error) => {
+        console.log('Error retrieving tasks:', error);
+      }
+    );
+  }
+
+  addTask(): void {
+    const newTask: Task = {
+      id: Date.now(),
+      name: this.newTaskName,
+      status: 'todo',
+      featureId: parseInt(this.selectedFeatureId)
+    };
+
+    this.tasksService.addTask(newTask).subscribe(
+      () => {
+        this.loadTasks(this.selectedFeatureId);
+        this.newTaskName = '';
+      },
+      (error) => {
+        console.log('Error adding task:', error);
+      }
+    );
+  }
+
+  deleteTask(taskId: number): void {
+    this.tasksService.deleteTask(taskId).subscribe(
+      () => {
+        this.loadTasks(this.selectedFeatureId);
+      },
+      (error) => {
+        console.log('Error deleting task:', error);
+      }
+    );
   }
 }
