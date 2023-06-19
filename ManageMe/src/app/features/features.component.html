@@ -1,1 +1,33 @@
-<p>features works!</p>
+<h2>Lista Funkcjonalności</h2>
+
+<div>
+  <input type="text" [(ngModel)]="newFeatureName" placeholder="Nazwa funkcjonalności">
+  <button (click)="addFeature()">Dodaj</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nazwa</th>
+      <th>Zadania</th>
+      <th>Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let feature of features">
+      <td>{{ feature.id }}</td>
+      <td>{{ feature.name }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let task of feature.tasks">
+            {{ task.name }}
+          </li>
+        </ul>
+      </td>
+      <td>
+        <button (click)="deleteFeature(feature.id)">Usuń</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
