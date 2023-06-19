@@ -1,1 +1,25 @@
-<p>tasks works!</p>
+<h2>Lista Zadań</h2>
+
+<select (change)="loadTasks($event)">
+  <option value="0">Wybierz funkcjonalność</option>
+  <option *ngFor="let feature of features" [value]="feature.id">{{ feature.name }}</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nazwa</th>
+      <th>Status</th>
+      <th>Funkcjonalność</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of tasks">
+      <td>{{ task.id }}</td>
+      <td>{{ task.name }}</td>
+      <td>{{ task.status }}</td>
+      <td>{{ task.featureId }}</td>
+    </tr>
+  </tbody>
+</table>
