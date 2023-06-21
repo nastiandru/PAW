@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Feature } from '../features/feature.model';
+import { Feature, Task } from '../features/feature.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +10,12 @@ export class FeaturesService {
     {
       id: 1,
       name: 'Funkcjonalność 1',
-      tasks: [
-        { id: 1, name: 'Zadanie 1', status: 'todo', featureId: 1 },
-        { id: 2, name: 'Zadanie 2', status: 'doing', featureId: 1 }
-      ]
+      tasks: []
     },
     {
       id: 2,
       name: 'Funkcjonalność 2',
-      tasks: [
-        { id: 3, name: 'Zadanie 3', status: 'done', featureId: 2 },
-        { id: 4, name: 'Zadanie 4', status: 'todo', featureId: 2 }
-      ]
+      tasks: []
     }
   ];
 
@@ -41,4 +35,6 @@ export class FeaturesService {
     }
     return of();
   }
+
+
 }

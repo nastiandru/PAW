@@ -1,25 +1,23 @@
-<h2>Lista Zadań</h2>
-
-<div>
-  <select (change)="loadTasks($event)">
-    <option value="0">Wybierz funkcjonalność</option>
-    <option *ngFor="let feature of features" [value]="feature.id.toString()">{{ feature.name }}</option>
+<div class="app-tasks">
+  <h2>Tasks</h2>
+  <select (change)="loadTasks()">
+    <option value="0">All Features</option>
+    <option *ngFor="let feature of features" [value]="feature.id">{{ feature.name }}</option>
   </select>
-</div>
 
-<div *ngIf="selectedFeatureId !== '0'">
-  <div>
-    <input type="text" [(ngModel)]="newTaskName" placeholder="Nazwa zadania">
-    <button (click)="addTask()">Dodaj</button>
+  <div class="add-task">
+    <input type="text" [(ngModel)]="newTaskName" placeholder="Enter task name" />
+    <button (click)="addTask()">Add Task</button>
   </div>
 
   <table>
     <thead>
       <tr>
         <th>ID</th>
-        <th>Nazwa</th>
+        <th>Name</th>
         <th>Status</th>
-        <th>Akcje</th>
+        <th>Feature</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -27,8 +25,9 @@
         <td>{{ task.id }}</td>
         <td>{{ task.name }}</td>
         <td>{{ task.status }}</td>
-        <td>
-          <button (click)="deleteTask(task.id)">Usuń</button>
+        <td>{{ getFeatureName(task.featureId) }}</td>
+        <td class="action-buttons">
+          <button (click)="deleteTask(task.id)">Delete</button>
         </td>
       </tr>
     </tbody>

@@ -1,1 +1,66 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #f1f1f1;
+    color: #333333;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Stylowanie komponentu zadan */
+  .app-tasks {
+    margin: 20px;
+  }
+  
+  h2 {
+    color: #005cbf;
+  }
+  
+  select, input, button {
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid #005cbf;
+    border-radius: 4px;
+  }
+  
+  select {
+    width: 200px;
+  }
+  
+  input[type="text"] {
+    width: 250px;
+  }
+  
+  button {
+    background-color: #005cbf;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #003f85;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    padding: 8px;
+    border: 1px solid #cccccc;
+  }
+  
+  /* Stylowanie przycisków akcji */
+  .action-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .action-buttons button {
+    background-color: #ffffff;
+    color: #005cbf;
+    border: 1px solid #005cbf;
+  }
+  
+  .action-buttons button:hover {
+    background-color: #005cbf;
+    color: #ffffff;
+  }

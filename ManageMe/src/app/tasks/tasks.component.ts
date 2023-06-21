@@ -14,7 +14,7 @@ export class TasksComponent implements OnInit {
   selectedFeatureId: string = '0';
   newTaskName: string = '';
 
-  constructor(private featuresService: FeaturesService, private tasksService: TasksService) { }
+  constructor(private featuresService: FeaturesService, private tasksService: TasksService) {}
 
   ngOnInit(): void {
     this.loadFeatures();
@@ -31,18 +31,27 @@ export class TasksComponent implements OnInit {
     );
   }
 
-  loadTasks(event: any): void {
-    const featureId = event.target.value;
-    this.selectedFeatureId = featureId;
-    
-    this.tasksService.getTasksForFeature(parseInt(featureId)).subscribe(
-      (tasks: Task[]) => {
-        this.tasks = tasks;
-      },
-      (error) => {
-        console.log('Error retrieving tasks:', error);
-      }
-    );
+  loadTasks(): void {
+    if (this.selectedFeatureId === '0') {
+      this.tasksService.getAllTasks().subscribe(
+        (tasks: Task[]) => {
+          this.tasks = tasks;
+        },
+        (error) => {
+          console.log('Error retrieving tasks:', error);
+        }
+      );
+    } else {
+      const featureId = parseInt(this.selectedFeatureId);
+      this.tasksService.getTasksForFeature(featureId).subscribe(
+        (tasks: Task[]) => {
+          this.tasks = tasks;
+        },
+        (error) => {
+          console.log('Error retrieving tasks:', error);
+        }
+      );
+    }
   }
 
   addTask(): void {
@@ -55,7 +64,7 @@ export class TasksComponent implements OnInit {
 
     this.tasksService.addTask(newTask).subscribe(
       () => {
-        this.loadTasks(this.selectedFeatureId);
+        this.loadTasks();
         this.newTaskName = '';
       },
       (error) => {
@@ -67,11 +76,16 @@ export class TasksComponent implements OnInit {
   deleteTask(taskId: number): void {
     this.tasksService.deleteTask(taskId).subscribe(
       () => {
-        this.loadTasks(this.selectedFeatureId);
+        this.loadTasks();
       },
       (error) => {
         console.log('Error deleting task:', error);
       }
     );
+  }
+
+  getFeatureName(featureId: number): string {
+    const feature = this.features.find((f) => f.id === featureId);
+    return feature ? feature.name : '';
   }
 }
