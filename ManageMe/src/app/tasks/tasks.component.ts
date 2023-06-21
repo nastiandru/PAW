@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Feature, Task } from '../features/feature.model';
 import { FeaturesService } from '../services/features.service';
 import { TasksService } from '../services/tasks.service';
+import { v4 as uuidv4} from 'uuid';
+
 
 @Component({
   selector: 'app-tasks',
@@ -10,14 +12,18 @@ import { TasksService } from '../services/tasks.service';
 })
 export class TasksComponent implements OnInit {
   features: Feature[] = [];
-  tasks: Task[] = [];
   selectedFeatureId: string = '0';
   newTaskName: string = '';
+  tasks: Task[] = [];
 
   constructor(private featuresService: FeaturesService, private tasksService: TasksService) {}
 
   ngOnInit(): void {
     this.loadFeatures();
+    this.loadTasks();
+    this.tasksService.tasksChanged.subscribe(() => {
+      this.loadTasks();
+    });
   }
 
   loadFeatures(): void {
@@ -33,55 +39,43 @@ export class TasksComponent implements OnInit {
 
   loadTasks(): void {
     if (this.selectedFeatureId === '0') {
-      this.tasksService.getAllTasks().subscribe(
-        (tasks: Task[]) => {
-          this.tasks = tasks;
-        },
-        (error) => {
-          console.log('Error retrieving tasks:', error);
-        }
-      );
+      this.tasks = this.tasksService.getAllTasks();
     } else {
       const featureId = parseInt(this.selectedFeatureId);
-      this.tasksService.getTasksForFeature(featureId).subscribe(
-        (tasks: Task[]) => {
-          this.tasks = tasks;
-        },
-        (error) => {
-          console.log('Error retrieving tasks:', error);
-        }
-      );
+      this.tasks = this.tasksService.getTasksForFeature(featureId);
     }
   }
 
   addTask(): void {
     const newTask: Task = {
-      id: Date.now(),
+      id: parseInt(uuidv4()),
       name: this.newTaskName,
       status: 'todo',
       featureId: parseInt(this.selectedFeatureId)
     };
-
+  
     this.tasksService.addTask(newTask).subscribe(
       () => {
         this.loadTasks();
         this.newTaskName = '';
       },
       (error) => {
-        console.log('Error adding task:', error);
+        console.log('Błąd podczas dodawania zadania:', error);
       }
     );
   }
 
   deleteTask(taskId: number): void {
-    this.tasksService.deleteTask(taskId).subscribe(
-      () => {
-        this.loadTasks();
-      },
-      (error) => {
-        console.log('Error deleting task:', error);
-      }
-    );
+    this.tasksService.deleteTask(taskId);
+  }
+
+  getTasksForFeature(featureId: string): Task[] {
+    if (featureId === '0') {
+      return this.tasksService.getAllTasks();
+    } else {
+      const id = parseInt(featureId);
+      return this.tasksService.getTasksForFeature(id);
+    }
   }
 
   getFeatureName(featureId: number): string {

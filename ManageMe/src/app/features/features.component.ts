@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Feature } from './feature.model';
+import { Feature, Task } from './feature.model';
 import { FeaturesService } from '../services/features.service';
+import { TasksService } from '../services/tasks.service';
 
 @Component({
   selector: 'app-features',
@@ -11,7 +12,7 @@ export class FeaturesComponent implements OnInit {
   features: Feature[] = [];
   newFeatureName: string = '';
 
-  constructor(private featuresService: FeaturesService) { }
+  constructor(private featuresService: FeaturesService, private tasksService: TasksService) { }
 
   ngOnInit(): void {
     this.loadFeatures();
@@ -55,5 +56,9 @@ export class FeaturesComponent implements OnInit {
         console.log('Error deleting feature:', error);
       }
     );
+  }
+
+  getTasksForFeature(featureId: number): Task[] {
+    return this.tasksService.getTasksForFeature(featureId);
   }
 }

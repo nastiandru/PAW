@@ -1,6 +1,6 @@
 <div class="app-tasks">
   <h2>Tasks</h2>
-  <select (change)="loadTasks()">
+  <select [(ngModel)]="selectedFeatureId" (change)="loadTasks()">
     <option value="0">All Features</option>
     <option *ngFor="let feature of features" [value]="feature.id">{{ feature.name }}</option>
   </select>
@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let task of tasks">
+      <tr *ngFor="let task of getTasksForFeature(selectedFeatureId)">
         <td>{{ task.id }}</td>
         <td>{{ task.name }}</td>
         <td>{{ task.status }}</td>

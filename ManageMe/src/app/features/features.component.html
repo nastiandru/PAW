@@ -20,7 +20,7 @@
       <td>{{ feature.name }}</td>
       <td>
         <ul>
-          <li *ngFor="let task of feature.tasks">
+          <li *ngFor="let task of getTasksForFeature(feature.id)">
             {{ task.name }}
           </li>
         </ul>

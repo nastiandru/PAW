@@ -6,7 +6,6 @@ import { Task } from '../features/feature.model';
   providedIn: 'root'
 })
 export class TasksService {
-    
   private tasks: Task[] = [
     {
       id: 1,
@@ -36,26 +35,26 @@ export class TasksService {
 
   tasksChanged: Subject<void> = new Subject<void>(); // Subject do powiadamiania o zmianach w zadaniach
 
-  getTasksForFeature(featureId: number): Observable<Task[]> {
-    const tasksForFeature = this.tasks.filter(task => task.featureId === featureId);
-    return of(tasksForFeature);
+  getTasksForFeature(featureId: number): Task[] {
+    return this.tasks.filter(task => task.featureId === featureId);
   }
 
-  getAllTasks(): Observable<Task[]> {
-    return of(this.tasks);
+  getAllTasks(): Task[] {
+    return this.tasks;
   }
 
   addTask(task: Task): Observable<void> {
     this.tasks.push(task);
-    return of();
+    this.notifyTasksChanged(); // powiadomienie o zmianie zadań
+    return of(undefined); // zwróć pustą wartość observable
   }
 
-  deleteTask(taskId: number): Observable<void> {
+  deleteTask(taskId: number): void {
     const index = this.tasks.findIndex(task => task.id === taskId);
     if (index !== -1) {
       this.tasks.splice(index, 1);
+      this.notifyTasksChanged();
     }
-    return of();
   }
 
   notifyTasksChanged(): void {
