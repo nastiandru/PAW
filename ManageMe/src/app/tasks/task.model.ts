@@ -3,4 +3,5 @@ export interface Task {
     name: string;
     status: string;
     featureId: number;
+    editMode?: boolean
   }

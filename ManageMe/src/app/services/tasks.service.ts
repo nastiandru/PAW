@@ -49,6 +49,14 @@ export class TasksService {
     return of(undefined); // zwróć pustą wartość observable
   }
 
+  editTask(taskId: number, newName: string): Observable<void> {
+    const task = this.tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.name = newName;
+    }
+    return of();
+  }
+
   deleteTask(taskId: number): void {
     const index = this.tasks.findIndex(task => task.id === taskId);
     if (index !== -1) {

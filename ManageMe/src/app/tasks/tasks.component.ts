@@ -9,6 +9,7 @@ import { TasksService } from '../services/tasks.service';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
+
 export class TasksComponent implements OnInit {
   private taskIdCounter: number = 1;
   features: Feature[] = [];
@@ -66,6 +67,25 @@ export class TasksComponent implements OnInit {
         console.log('Błąd podczas dodawania zadania:', error);
       }
     );
+  }
+
+  editTask(task: Task): void {
+    task.editMode = true;
+  }
+
+  saveTask(task: Task): void {
+    if (task.name && task.name.trim() !== '') {
+      task.editMode = false;
+
+      this.tasksService.editTask(task.id, task.name).subscribe(
+        () => {
+          this.loadTasks();
+        },
+        (error) => {
+          console.log('Error editing task:', error);
+        }
+      );
+    }
   }
 
   deleteTask(taskId: number): void {

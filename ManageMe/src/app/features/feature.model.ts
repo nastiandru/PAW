@@ -11,4 +11,5 @@ export interface Feature {
     name: string;
     status: string;
     featureId: number;
+    editMode?: boolean
   }

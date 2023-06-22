@@ -21,12 +21,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let task of getTasksForFeature(selectedFeatureId)">
+      <tr *ngFor="let task of tasks">
         <td>{{ task.id }}</td>
-        <td>{{ task.name }}</td>
+        <td>
+          <ng-container *ngIf="!task.editMode; else editModeTemplate">
+            {{ task.name }}
+          </ng-container>
+          <ng-template #editModeTemplate>
+            <input type="text" [(ngModel)]="task.name">
+          </ng-template>
+        </td>
         <td>{{ task.status }}</td>
         <td>{{ getFeatureName(task.featureId) }}</td>
-        <td class="action-buttons">
+        <td>
+          <button *ngIf="!task.editMode" (click)="editTask(task)">Edytuj</button>
+          <button *ngIf="task.editMode" (click)="saveTask(task)">Zapisz</button>
           <button (click)="deleteTask(task.id)">Usuń</button>
         </td>
       </tr>
