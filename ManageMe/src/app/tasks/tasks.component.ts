@@ -11,7 +11,7 @@ import { TasksService } from '../services/tasks.service';
 })
 
 export class TasksComponent implements OnInit {
-  private taskIdCounter: number = 1;
+  private taskIdCounter: number = 5;
   features: Feature[] = [];
   selectedFeatureId: string = '0';
   newTaskName: string = '';

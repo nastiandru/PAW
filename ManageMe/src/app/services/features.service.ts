@@ -20,7 +20,7 @@ export class FeaturesService {
     }
   ];
 
-  private featureIdCounter: number = 1;
+  private featureIdCounter: number = 3;
 
   getFeatures(): Observable<Feature[]> {
     return of(this.features);

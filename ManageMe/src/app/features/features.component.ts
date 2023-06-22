@@ -10,7 +10,7 @@ import { TasksService } from '../services/tasks.service';
 })
 
 export class FeaturesComponent implements OnInit {
-  private featureIdCounter: number = 1;
+  private featureIdCounter: number = 3;
   features: Feature[] = [];
   newFeatureName: string = '';
 
