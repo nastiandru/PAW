@@ -17,7 +17,7 @@ export class FeaturesService {
     {
       id: 2,
       name: 'Funkcjonalność 2',
-      status: 'in progress',
+      status: 'doing',
       tasks: []
     },
   

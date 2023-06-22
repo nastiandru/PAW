@@ -16,7 +16,7 @@ export class TasksService {
     {
       id: 2,
       name: 'Zadanie 2',
-      status: 'in progress',
+      status: 'doing',
       featureId: 1
     },
     {
