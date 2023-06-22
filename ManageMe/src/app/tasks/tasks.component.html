@@ -1,7 +1,7 @@
 <div class="app-tasks">
   <h2>Zadania</h2>
   <select [(ngModel)]="selectedFeatureId" (change)="loadTasks()">
-    <option value="0">Wszystjie funkcjonalności</option>
+    <option value="0">Wszystkie funkcjonalności</option>
     <option *ngFor="let feature of features" [value]="feature.id">{{ feature.name }}</option>
   </select>
 
@@ -31,7 +31,18 @@
             <input type="text" [(ngModel)]="task.name">
           </ng-template>
         </td>
-        <td>{{ task.status }}</td>
+        <td>
+          <ng-container *ngIf="!task.editMode; else editModeStatusTemplate">
+            {{ task.status }}
+          </ng-container>
+          <ng-template #editModeStatusTemplate>
+            <select [(ngModel)]="task.status">
+              <option value="todo">Do zrobienia</option>
+              <option value="in progress">W trakcie</option>
+              <option value="done">Zrobione</option>
+            </select>
+          </ng-template>
+        </td>
         <td>{{ getFeatureName(task.featureId) }}</td>
         <td>
           <button *ngIf="!task.editMode" (click)="editTask(task)">Edytuj</button>

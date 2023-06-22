@@ -3,13 +3,11 @@ import { Feature, Task } from '../features/feature.model';
 import { FeaturesService } from '../services/features.service';
 import { TasksService } from '../services/tasks.service';
 
-
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
-
 export class TasksComponent implements OnInit {
   private taskIdCounter: number = 5;
   features: Feature[] = [];
@@ -55,7 +53,6 @@ export class TasksComponent implements OnInit {
       featureId: parseInt(this.selectedFeatureId)
     };
 
-    // Inkrementacja licznika identyfikatorów
     this.taskIdCounter++;
 
     this.tasksService.addTask(newTask).subscribe(
@@ -77,7 +74,7 @@ export class TasksComponent implements OnInit {
     if (task.name && task.name.trim() !== '') {
       task.editMode = false;
 
-      this.tasksService.editTask(task.id, task.name).subscribe(
+      this.tasksService.editTask(task.id, task.name, task.status).subscribe(
         () => {
           this.loadTasks();
         },

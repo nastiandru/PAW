@@ -49,12 +49,14 @@ export class TasksService {
     return of(undefined); // zwróć pustą wartość observable
   }
 
-  editTask(taskId: number, newName: string): Observable<void> {
+  editTask(taskId: number, newName: string, newStatus: string): Observable<void> {
     const task = this.tasks.find((t) => t.id === taskId);
     if (task) {
       task.name = newName;
+      task.status = newStatus;
     }
-    return of();
+    this.notifyTasksChanged();
+    return of(undefined);
   }
 
   deleteTask(taskId: number): void {
