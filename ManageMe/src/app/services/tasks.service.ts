@@ -60,4 +60,6 @@ export class TasksService {
   notifyTasksChanged(): void {
     this.tasksChanged.next(); // Wywołanie metody next() powoduje wysłanie powiadomienia do subskrybentów
   }
+
+  
 }

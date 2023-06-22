@@ -20,16 +20,20 @@ export class FeaturesService {
     }
   ];
 
+  private featureIdCounter: number = 1;
+
   getFeatures(): Observable<Feature[]> {
     return of(this.features);
   }
 
   addFeature(feature: Feature): Observable<Feature> {
     const newFeature: Feature = {
-      id: Date.now(),
+      id: this.featureIdCounter,
       name: feature.name,
       tasks: []
     };
+    this.featureIdCounter++; // Inkrementacja licznika
+
     this.features.push(newFeature);
     return of(newFeature);
   }
@@ -56,6 +60,7 @@ export class FeaturesService {
     }
     return of();
   }
+  
 
 
 }
