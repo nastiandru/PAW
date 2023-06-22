@@ -1,7 +1,9 @@
 export interface Feature {
     id: number;
     name: string;
+    newName?: string;
     tasks: Task[];
+    editMode?: boolean;
   }
   
   export interface Task {

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Feature, Task } from '../features/feature.model';
 import { FeaturesService } from '../services/features.service';
 import { TasksService } from '../services/tasks.service';
-import { v4 as uuidv4} from 'uuid';
 
 
 @Component({
@@ -11,6 +10,7 @@ import { v4 as uuidv4} from 'uuid';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
+  private taskIdCounter: number = 1;
   features: Feature[] = [];
   selectedFeatureId: string = '0';
   newTaskName: string = '';
@@ -48,12 +48,15 @@ export class TasksComponent implements OnInit {
 
   addTask(): void {
     const newTask: Task = {
-      id: parseInt(uuidv4()),
+      id: this.taskIdCounter,
       name: this.newTaskName,
       status: 'todo',
       featureId: parseInt(this.selectedFeatureId)
     };
-  
+
+    // Inkrementacja licznika identyfikatorów
+    this.taskIdCounter++;
+
     this.tasksService.addTask(newTask).subscribe(
       () => {
         this.loadTasks();

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Feature, Task } from '../features/feature.model';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,29 @@ export class FeaturesService {
     return of(this.features);
   }
 
-  addFeature(feature: Feature): Observable<void> {
-    this.features.push(feature);
-    return of();
+  addFeature(feature: Feature): Observable<Feature> {
+    const newFeature: Feature = {
+      id: Date.now(),
+      name: feature.name,
+      tasks: []
+    };
+    this.features.push(newFeature);
+    return of(newFeature);
+  }
+
+  editFeature(featureId: number, newName: string): Observable<Feature | undefined> {
+    return this.getFeatureById(featureId).pipe(
+      map((feature: Feature | undefined) => {
+        if (feature) {
+          feature.name = newName;
+        }
+        return feature;
+      })
+    );
+  }
+  
+  private getFeatureById(featureId: number): Observable<Feature | undefined> {
+    return of(this.features.find(feature => feature.id === featureId));
   }
 
   deleteFeature(featureId: number): Observable<void> {

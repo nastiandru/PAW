@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Feature, Task } from './feature.model';
+import { Feature, Task } from '../features/feature.model';
 import { FeaturesService } from '../services/features.service';
 import { TasksService } from '../services/tasks.service';
 
@@ -21,7 +21,9 @@ export class FeaturesComponent implements OnInit {
   loadFeatures(): void {
     this.featuresService.getFeatures().subscribe(
       (features: Feature[]) => {
-        this.features = features;
+        this.features = features.map((feature) => {
+          return { ...feature, newName: feature.name, editMode: false };
+        });
       },
       (error) => {
         console.log('Error retrieving features:', error);
@@ -33,6 +35,7 @@ export class FeaturesComponent implements OnInit {
     const newFeature: Feature = {
       id: Date.now(),
       name: this.newFeatureName,
+      newName: this.newFeatureName,
       tasks: []
     };
 
@@ -45,6 +48,26 @@ export class FeaturesComponent implements OnInit {
         console.log('Error adding feature:', error);
       }
     );
+  }
+
+  editFeature(feature: Feature): void {
+    feature.editMode = true;
+  }
+
+  saveFeature(feature: Feature): void {
+    if (feature.newName && feature.newName.trim() !== '') {
+      feature.name = feature.newName;
+      feature.editMode = false;
+  
+      this.featuresService.editFeature(feature.id, feature.name).subscribe(
+        () => {
+          this.loadFeatures();
+        },
+        (error) => {
+          console.log('Error editing feature:', error);
+        }
+      );
+    }
   }
 
   deleteFeature(featureId: number): void {
