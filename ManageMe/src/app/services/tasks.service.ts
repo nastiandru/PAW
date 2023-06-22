@@ -32,6 +32,7 @@ export class TasksService {
       featureId: 2
     }
   ];
+  
 
   tasksChanged: Subject<void> = new Subject<void>(); // Subject do powiadamiania o zmianach w zadaniach
 

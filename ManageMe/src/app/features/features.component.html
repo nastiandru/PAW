@@ -10,6 +10,7 @@
     <tr>
       <th>ID</th>
       <th>Nazwa</th>
+      <th>Status</th>
       <th>Zadania</th>
       <th>Akcje</th>
     </tr>
@@ -23,6 +24,18 @@
         </ng-container>
         <ng-template #editModeTemplate>
           <input type="text" [(ngModel)]="feature.newName">
+        </ng-template>
+      </td>
+      <td>
+        <ng-container *ngIf="!feature.editMode; else editModeStatusTemplate">
+          {{ feature.status }}
+        </ng-container>
+        <ng-template #editModeStatusTemplate>
+          <select [(ngModel)]="feature.status">
+            <option value="todo">Do zrobienia</option>
+            <option value="in progress">W trakcie</option>
+            <option value="done">Zrobione</option>
+          </select>
         </ng-template>
       </td>
       <td>

@@ -8,14 +8,12 @@ import { TasksService } from '../services/tasks.service';
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss']
 })
-
 export class FeaturesComponent implements OnInit {
   private featureIdCounter: number = 3;
   features: Feature[] = [];
   newFeatureName: string = '';
 
-
-  constructor(private featuresService: FeaturesService, private tasksService: TasksService) { }
+  constructor(private featuresService: FeaturesService, private tasksService: TasksService) {}
 
   ngOnInit(): void {
     this.loadFeatures();
@@ -36,14 +34,15 @@ export class FeaturesComponent implements OnInit {
 
   addFeature(): void {
     const newFeature: Feature = {
-      id: this.featureIdCounter, // Pobieranie wartości licznika
+      id: this.featureIdCounter,
       name: this.newFeatureName,
+      status: 'todo',
       newName: this.newFeatureName,
       tasks: []
     };
 
     this.featureIdCounter++;
-  
+
     this.featuresService.addFeature(newFeature).subscribe(
       () => {
         this.loadFeatures();
@@ -63,8 +62,8 @@ export class FeaturesComponent implements OnInit {
     if (feature.newName && feature.newName.trim() !== '') {
       feature.name = feature.newName;
       feature.editMode = false;
-  
-      this.featuresService.editFeature(feature.id, feature.name).subscribe(
+
+      this.featuresService.editFeature(feature.id, feature.name, feature.status).subscribe(
         () => {
           this.loadFeatures();
         },
