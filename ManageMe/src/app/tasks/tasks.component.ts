@@ -13,7 +13,9 @@ export class TasksComponent implements OnInit {
   features: Feature[] = [];
   selectedFeatureId: string = '0';
   newTaskName: string = '';
+  newTaskDescription: string = '';
   tasks: Task[] = [];
+  isTaskListVisible: boolean = true;
 
   constructor(private featuresService: FeaturesService, private tasksService: TasksService) {}
 
@@ -49,6 +51,7 @@ export class TasksComponent implements OnInit {
     const newTask: Task = {
       id: this.taskIdCounter,
       name: this.newTaskName,
+      description: this.newTaskDescription,
       status: 'todo',
       featureId: parseInt(this.selectedFeatureId)
     };
@@ -59,6 +62,7 @@ export class TasksComponent implements OnInit {
       () => {
         this.loadTasks();
         this.newTaskName = '';
+        this.newTaskDescription= '';
       },
       (error) => {
         console.log('Błąd podczas dodawania zadania:', error);
@@ -74,7 +78,7 @@ export class TasksComponent implements OnInit {
     if (task.name && task.name.trim() !== '') {
       task.editMode = false;
 
-      this.tasksService.editTask(task.id, task.name, task.status).subscribe(
+      this.tasksService.editTask(task.id, task.name, task.status, task.description).subscribe(
         () => {
           this.loadTasks();
         },
@@ -101,5 +105,9 @@ export class TasksComponent implements OnInit {
   getFeatureName(featureId: number): string {
     const feature = this.features.find((f) => f.id === featureId);
     return feature ? feature.name : '';
+  }
+
+  toggleTaskList(): void {
+    this.isTaskListVisible = !this.isTaskListVisible;
   }
 }

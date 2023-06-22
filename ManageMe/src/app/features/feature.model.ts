@@ -10,6 +10,7 @@ export interface Feature {
   export interface Task {
     id: number;
     name: string;
+    description: string;
     status: string;
     featureId: number;
     editMode?: boolean

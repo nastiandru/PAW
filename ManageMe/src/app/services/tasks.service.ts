@@ -10,24 +10,28 @@ export class TasksService {
     {
       id: 1,
       name: 'Zadanie 1',
+      description: 'Opis zadania',
       status: 'todo',
       featureId: 1
     },
     {
       id: 2,
       name: 'Zadanie 2',
+      description: 'Opis zadania1',
       status: 'doing',
       featureId: 1
     },
     {
       id: 3,
       name: 'Zadanie 3',
+      description: 'Opis zadania',
       status: 'done',
       featureId: 2
     },
     {
       id: 4,
       name: 'Zadanie 4',
+      description: 'Opis zadania',
       status: 'todo',
       featureId: 2
     }
@@ -50,10 +54,11 @@ export class TasksService {
     return of(undefined); // zwróć pustą wartość observable
   }
 
-  editTask(taskId: number, newName: string, newStatus: string): Observable<void> {
+  editTask(taskId: number, newName: string, newStatus: string, newTaskDescription: string): Observable<void> {
     const task = this.tasks.find((t) => t.id === taskId);
     if (task) {
       task.name = newName;
+      task.description = newTaskDescription;
       task.status = newStatus;
     }
     this.notifyTasksChanged();

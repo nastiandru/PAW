@@ -7,14 +7,18 @@
 
   <div class="add-task">
     <input type="text" [(ngModel)]="newTaskName" placeholder="Nazwa zadania" />
+    <input type="text" [(ngModel)]="newTaskDescription" placeholder="Opis zadania" />
     <button (click)="addTask()">Dodaj zadanie</button>
   </div>
 
-  <table>
+  <button (click)="toggleTaskList()">Zwiń/Rozwiń</button> <!-- Przycisk Zwiń/Rozwiń -->
+
+  <table *ngIf="isTaskListVisible"> <!-- Dyrektywa *ngIf dla tabeli z zadaniami -->
     <thead>
       <tr>
         <th>ID</th>
         <th>Nazwa</th>
+        <th>Opis</th>
         <th>Status</th>
         <th>Funkcjonalność</th>
         <th>Akcje</th>
@@ -29,6 +33,14 @@
           </ng-container>
           <ng-template #editModeTemplate>
             <input type="text" [(ngModel)]="task.name">
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="!task.editMode; else editModeDescriptionTemplate">
+            {{ task.description }}
+          </ng-container>
+          <ng-template #editModeDescriptionTemplate>
+            <input type="text" [(ngModel)]="task.description">
           </ng-template>
         </td>
         <td>
