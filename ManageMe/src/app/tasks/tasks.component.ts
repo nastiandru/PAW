@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Feature, Task } from '../features/feature.model';
+import { Feature } from '../models/feature.model';
+import { Task } from '../models/task.model';
 import { FeaturesService } from '../services/features.service';
 import { TasksService } from '../services/tasks.service';
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { Feature } from '../features/feature.model';
+import { Feature } from '../models/feature.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
