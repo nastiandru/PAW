@@ -11,7 +11,7 @@ export class FeaturesService {
     {
       id: 1,
       name: 'Funkcjonalność 1',
-      status: 'todo',
+      status: 'doing',
       tasks: []
     },
     {

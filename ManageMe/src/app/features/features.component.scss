@@ -1,8 +1,25 @@
-.feature-container {
-    background-color: #005cbf;
-    color: #ffffff;
-  }
-  
-  .feature-container h3 {
-    color: #ffffff;
-  }
+
+
+.feature-table {
+  background-color: #ffffff;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.feature-thead{
+  background-color: #ffddb1;
+}
+
+
+
+.feature-actions button {
+  background-color: #ffffff;
+  color: #e7882f;
+  border: 1px solid #e7882f;
+  margin-right: 5px;
+}
+
+.feature-actions button:hover {
+  background-color: #e7882f;
+  color: #ffffff;
+}

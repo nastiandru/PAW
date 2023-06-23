@@ -1,55 +1,62 @@
+<div class="app-tasks">
 <h2>Funkcjonalności</h2>
 
-<div>
-  <input type="text" [(ngModel)]="newFeatureName" placeholder="Nazwa funkcjonalności">
-  <button (click)="addFeature()">Dodaj funkcjonalność</button>
-</div>
+<div class="feature-container">
+  <div class="feature-input">
+    <input type="text" [(ngModel)]="newFeatureName" placeholder="Nazwa funkcjonalności">
+    <button (click)="addFeature()">Dodaj funkcjonalność</button>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nazwa</th>
-      <th>Status</th>
-      <th>Zadania</th>
-      <th>Akcje</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let feature of features">
-      <td>{{ feature.id }}</td>
-      <td>
-        <ng-container *ngIf="!feature.editMode; else editModeTemplate">
-          {{ feature.name }}
-        </ng-container>
-        <ng-template #editModeTemplate>
-          <input type="text" [(ngModel)]="feature.newName">
-        </ng-template>
-      </td>
-      <td>
-        <ng-container *ngIf="!feature.editMode; else editModeStatusTemplate">
-          {{ feature.status }}
-        </ng-container>
-        <ng-template #editModeStatusTemplate>
-          <select [(ngModel)]="feature.status">
-            <option value="todo">Do zrobienia</option>
-            <option value="doing">W trakcie</option>
-            <option value="done">Zrobione</option>
-          </select>
-        </ng-template>
-      </td>
-      <td>
-        <ul>
-          <li *ngFor="let task of getTasksForFeature(feature.id)">
-            {{ task.name }}
-          </li>
-        </ul>
-      </td>
-      <td>
-        <button *ngIf="!feature.editMode" (click)="editFeature(feature)">Edytuj</button>
-        <button *ngIf="feature.editMode" (click)="saveFeature(feature)">Zapisz</button>
-        <button (click)="deleteFeature(feature.id)">Usuń</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <table class="feature-table">
+  
+    <thead class="feature-thead">
+      <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+        <th>Status</th>
+        <th>Zadania</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+
+
+    <tbody>
+      <tr *ngFor="let feature of features">
+        <td>{{ feature.id }}</td>
+        <td>
+          <ng-container *ngIf="!feature.editMode; else editModeTemplate">
+            {{ feature.name }}
+          </ng-container>
+          <ng-template #editModeTemplate>
+            <input type="text" [(ngModel)]="feature.newName">
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="!feature.editMode; else editModeStatusTemplate">
+            {{ feature.status }}
+          </ng-container>
+          <ng-template #editModeStatusTemplate>
+            <select [(ngModel)]="feature.status">
+              <option value="todo">Do zrobienia</option>
+              <option value="doing">W trakcie</option>
+              <option value="done">Zrobione</option>
+            </select>
+          </ng-template>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let task of getTasksForFeature(feature.id)">
+              {{ task.name }}
+            </li>
+          </ul>
+        </td>
+        <td class="feature-actions">
+          <button *ngIf="!feature.editMode" (click)="editFeature(feature)">Edytuj</button>
+          <button *ngIf="feature.editMode" (click)="saveFeature(feature)">Zapisz</button>
+          <button (click)="deleteFeature(feature.id)">Usuń</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

@@ -13,8 +13,8 @@
 
   <button (click)="toggleTaskList()">Zwiń/Rozwiń</button> <!-- Przycisk Zwiń/Rozwiń -->
 
-  <table *ngIf="isTaskListVisible"> <!-- Dyrektywa *ngIf dla tabeli z zadaniami -->
-    <thead>
+  <table class="task-table" *ngIf="isTaskListVisible"> <!-- Dyrektywa *ngIf dla tabeli z zadaniami -->
+    <thead class="task-thead">
       <tr>
         <th>ID</th>
         <th>Nazwa</th>
