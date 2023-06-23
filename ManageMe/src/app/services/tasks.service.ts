@@ -36,12 +36,11 @@ export class TasksService {
       featureId: 2
     }
   ];
-  
 
-  tasksChanged: Subject<void> = new Subject<void>(); // Subject do powiadamiania o zmianach w zadaniach
+  tasksChanged: Subject<void> = new Subject<void>();
 
   getTasksForFeature(featureId: number): Task[] {
-    return this.tasks.filter(task => task.featureId === featureId);
+    return this.tasks.filter((task) => task.featureId === featureId);
   }
 
   getAllTasks(): Task[] {
@@ -50,8 +49,8 @@ export class TasksService {
 
   addTask(task: Task): Observable<void> {
     this.tasks.push(task);
-    this.notifyTasksChanged(); // powiadomienie o zmianie zadań
-    return of(undefined); // zwróć pustą wartość observable
+    this.notifyTasksChanged();
+    return of(undefined);
   }
 
   editTask(taskId: number, newName: string, newStatus: string, newTaskDescription: string): Observable<void> {
@@ -66,7 +65,7 @@ export class TasksService {
   }
 
   deleteTask(taskId: number): void {
-    const index = this.tasks.findIndex(task => task.id === taskId);
+    const index = this.tasks.findIndex((task) => task.id === taskId);
     if (index !== -1) {
       this.tasks.splice(index, 1);
       this.notifyTasksChanged();
@@ -74,8 +73,6 @@ export class TasksService {
   }
 
   notifyTasksChanged(): void {
-    this.tasksChanged.next(); // Wywołanie metody next() powoduje wysłanie powiadomienia do subskrybentów
+    this.tasksChanged.next();
   }
-
-  
 }

@@ -19,8 +19,7 @@ export class FeaturesService {
       name: 'Funkcjonalność 2',
       status: 'doing',
       tasks: []
-    },
-  
+    }
   ];
 
   private featureIdCounter: number = 3;
@@ -38,7 +37,7 @@ export class FeaturesService {
       status: feature.status || 'todo',
       tasks: []
     };
-    this.featureIdCounter++; // Inkrementacja licznika
+    this.featureIdCounter++;
 
     this.features.push(newFeature);
     this.featuresChanged.next();
@@ -57,25 +56,15 @@ export class FeaturesService {
     );
   }
 
-  private getFeatureById(featureId: number): Observable<Feature | undefined> {
-    return of(this.features.find((feature) => feature.id === featureId));
-  }
-
   deleteFeature(featureId: number): Observable<void> {
     const index = this.features.findIndex((f) => f.id === featureId);
     if (index !== -1) {
       this.features.splice(index, 1);
     }
-    return of();
+    return of(undefined);
   }
 
-
-  updateFeatureStatus(featureId: number, newStatus: string): Observable<void> {
-    const feature = this.features.find((f) => f.id === featureId);
-    if (feature) {
-      feature.status = newStatus;
-      this.featuresChanged.next();
-    }
-    return of();
+  private getFeatureById(featureId: number): Observable<Feature | undefined> {
+    return of(this.features.find((feature) => feature.id === featureId));
   }
 }

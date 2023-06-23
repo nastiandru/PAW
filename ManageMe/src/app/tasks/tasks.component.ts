@@ -45,6 +45,7 @@ export class TasksComponent implements OnInit {
       const featureId = parseInt(this.selectedFeatureId);
       this.tasks = this.tasksService.getTasksForFeature(featureId);
     }
+    this.updateFeatureStatus();
   }
 
   addTask(): void {
@@ -62,10 +63,10 @@ export class TasksComponent implements OnInit {
       () => {
         this.loadTasks();
         this.newTaskName = '';
-        this.newTaskDescription= '';
+        this.newTaskDescription = '';
       },
       (error) => {
-        console.log('Błąd podczas dodawania zadania:', error);
+        console.log('Error adding task:', error);
       }
     );
   }
@@ -81,6 +82,9 @@ export class TasksComponent implements OnInit {
       this.tasksService.editTask(task.id, task.name, task.status, task.description).subscribe(
         () => {
           this.loadTasks();
+          if (task.status === 'doing') {
+            this.updateFeatureStatus(); // Aktualizuj status funkcjonalności po zmianie statusu zadania na "doing"
+          }
         },
         (error) => {
           console.log('Error editing task:', error);
@@ -91,6 +95,7 @@ export class TasksComponent implements OnInit {
 
   deleteTask(taskId: number): void {
     this.tasksService.deleteTask(taskId);
+    this.updateFeatureStatus();
   }
 
   getTasksForFeature(featureId: string): Task[] {
@@ -105,6 +110,26 @@ export class TasksComponent implements OnInit {
   getFeatureName(featureId: number): string {
     const feature = this.features.find((f) => f.id === featureId);
     return feature ? feature.name : '';
+  }
+
+  updateFeatureStatus(): void {
+    this.features.forEach((feature) => {
+      const tasks = this.tasksService.getTasksForFeature(feature.id);
+      const allTasksDone = tasks.every((task) => task.status === 'done');
+      if (allTasksDone) {
+        feature.status = 'done';
+      } else if (tasks.some((task) => task.status === 'doing')) {
+        feature.status = 'doing';
+      } else {
+        feature.status = 'todo';
+      }
+      this.featuresService.editFeature(feature.id, feature.name, feature.status).subscribe(
+        () => {},
+        (error) => {
+          console.log('Error updating feature status:', error);
+        }
+      );
+    });
   }
 
   toggleTaskList(): void {

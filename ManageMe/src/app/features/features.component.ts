@@ -88,4 +88,29 @@ export class FeaturesComponent implements OnInit {
   getTasksForFeature(featureId: number): Task[] {
     return this.tasksService.getTasksForFeature(featureId);
   }
+
+  updateFeatureStatus(featureId: number): void {
+    console.log(this.features);  // Wypisanie wartości this.features
+    console.log(this.tasksService);  // Wypisanie wartości this.tasksService
+    const feature = this.features.find((f) => f.id === featureId);
+    if (feature) {
+      const tasks = this.tasksService.getTasksForFeature(featureId);
+      const allTasksDone = tasks.every((task) => task.status === 'done');
+      if (allTasksDone) {
+        feature.status = 'done';
+      } else if (tasks.some((task) => task.status === 'doing')) {
+        feature.status = 'doing';
+      } else {
+        feature.status = 'todo';
+      }
+      this.featuresService.editFeature(feature.id, feature.name, feature.status).subscribe(
+        () => {
+          this.loadFeatures();
+        },
+        (error) => {
+          console.log('Error updating feature status:', error);
+        }
+      );
+    }
+  }
 }
